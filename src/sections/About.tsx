@@ -1,18 +1,16 @@
 import { profile } from '@/data';
+import { useLanguage } from '@/i18n';
 import { RichText, Section } from '@/components/ui';
 import styles from './About.module.css';
 
 export function About() {
+  const { t, tr } = useLanguage();
+
   return (
-    <Section
-      id="about"
-      index="01"
-      eyebrow="About"
-      title="Building software that is fast, reliable and easy to maintain"
-    >
+    <Section id="about" index="01" eyebrow={t.about.eyebrow} title={t.about.title}>
       <div className={styles.grid}>
         <div className={styles.text}>
-          {profile.summary.map((paragraph) => (
+          {tr(profile.summary).map((paragraph) => (
             <p key={paragraph}>
               <RichText text={paragraph} />
             </p>
@@ -21,9 +19,9 @@ export function About() {
 
         <ul className={styles.highlights}>
           {profile.highlights.map((item) => (
-            <li key={item.title} className={styles.card}>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
+            <li key={item.title.en} className={styles.card}>
+              <h3>{tr(item.title)}</h3>
+              <p>{tr(item.text)}</p>
             </li>
           ))}
         </ul>

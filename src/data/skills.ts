@@ -1,33 +1,72 @@
-import type { Language, SkillGroup } from '@/types';
+import type { Localized, SkillGroup } from '@/types';
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: 'Languages',
-    items: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C#', 'HTML', 'CSS'],
+    title: { en: 'Languages', fr: 'Langages' },
+    items: ['Python', 'JavaScript', 'Java', 'HTML', 'CSS'],
   },
   {
-    title: 'Backend',
-    items: ['FastAPI', 'Django', 'Flask', 'NestJS', 'Spring Boot', '.NET', 'RESTful APIs', 'JWT'],
+    title: { en: 'Backend', fr: 'Backend' },
+    items: [
+      'FastAPI',
+      'Django',
+      'Flask',
+      'Spring Boot',
+      'NestJS',
+      { en: 'RESTful API design', fr: "Conception d'API RESTful" },
+      'JWT',
+      'Celery',
+      'RabbitMQ',
+      'Microservices',
+    ],
   },
   {
-    title: 'Frontend',
-    items: ['Vue.js', 'React', 'Angular', 'Responsive design'],
+    title: { en: 'Frontend', fr: 'Frontend' },
+    items: [
+      'React',
+      'Vue.js',
+      'Angular',
+      'Streamlit',
+      { en: 'Responsive design', fr: 'Design responsive' },
+    ],
   },
   {
-    title: 'Databases',
-    items: ['PostgreSQL', 'PostGIS', 'MongoDB', 'Firebase', 'Indexing', 'Query optimization'],
+    title: { en: 'Databases', fr: 'Bases de données' },
+    items: [
+      'PostgreSQL',
+      'PostGIS',
+      'MongoDB',
+      'Firebase',
+      { en: 'Indexing', fr: 'Indexation' },
+      { en: 'Query optimization', fr: 'Optimisation de requêtes' },
+    ],
   },
   {
-    title: 'Cloud & DevOps',
-    items: ['AWS (S3, EC2, ECR, SSM)', 'Docker', 'GitHub Actions', 'CI/CD', 'Git'],
+    title: { en: 'Cloud & DevOps', fr: 'Cloud & DevOps' },
+    items: ['AWS (S3, EC2, ECR, Elastic IP, SSM)', 'Docker', 'GitHub Actions', 'CI/CD', 'Git'],
   },
   {
-    title: 'Architecture & integrations',
-    items: ['Microservices', 'API Gateway', 'Eureka', 'MQTT', 'Firebase Cloud Messaging', 'Stripe'],
+    title: { en: 'AI & automation', fr: 'IA & automatisation' },
+    items: [
+      { en: 'AI model integration', fr: "Intégration de modèles d'IA" },
+      { en: 'End-to-end model pipelines', fr: 'Pipelines de modèles de bout en bout' },
+      { en: 'Dockerized models', fr: 'Modèles conteneurisés' },
+      { en: 'Async execution (Celery, RabbitMQ)', fr: 'Exécution asynchrone (Celery, RabbitMQ)' },
+      {
+        en: 'Resource sizing (local vs cloud)',
+        fr: 'Dimensionnement des ressources (local / cloud)',
+      },
+      { en: 'Task automation', fr: 'Automatisation des tâches' },
+      { en: 'AI-assisted development', fr: 'Développement assisté par IA' },
+    ],
+  },
+  {
+    title: { en: 'Architecture & integrations', fr: 'Architecture & intégrations' },
+    items: ['API Gateway', 'Eureka', 'MQTT', 'Firebase Cloud Messaging', 'Stripe'],
   },
 ];
 
-export const languages: Language[] = [
-  { name: 'English', level: 'B2' },
-  { name: 'French', level: 'Intermediate, working level' },
+export const spokenLanguages: Localized[] = [
+  { en: 'English', fr: 'Anglais' },
+  { en: 'French', fr: 'Français' },
 ];

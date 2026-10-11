@@ -27,7 +27,7 @@ export function Section({ id, index, eyebrow, title, intro, children }: SectionP
       <div className="container">
         <header className={styles.header}>
           <p className={styles.eyebrow}>
-            <span>{index}</span> — {eyebrow}
+            <span>{index}</span> / {eyebrow}
           </p>
           <h2 id={headingId} className={styles.title}>
             {title}

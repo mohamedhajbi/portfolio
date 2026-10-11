@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { navigation, profile } from '@/data';
+import { profile, sectionIds } from '@/data';
 import { useActiveSection, useTheme } from '@/hooks';
+import { locales, useLanguage } from '@/i18n';
 import { Icon } from '@/components/ui';
 import { cn } from '@/utils/cn';
 import styles from './Header.module.css';
 
-const sectionIds = navigation.map((item) => item.id);
-
 export function Header() {
   const { theme, toggleTheme } = useTheme();
+  const { locale, setLocale, t, tr } = useLanguage();
   const active = useActiveSection(sectionIds);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,36 +27,38 @@ export function Header() {
     return () => window.removeEventListener('keydown', onKey);
   }, [menuOpen]);
 
-  const nextTheme = theme === 'dark' ? 'light' : 'dark';
-
   return (
     <header className={cn(styles.header, scrolled && styles.scrolled)}>
       <div className={cn('container', styles.inner)}>
-        <a href="#top" className={styles.brand} aria-label={`${profile.name} — back to top`}>
+        <a
+          href="#top"
+          className={styles.brand}
+          aria-label={`${profile.name}, ${t.header.backToTop}`}
+        >
           <span className={styles.logo} aria-hidden="true">
             {profile.initials}
           </span>
           <span className={styles.brandText}>
             <strong>{profile.name}</strong>
-            <small>Software Engineer</small>
+            <small>{tr(profile.title)}</small>
           </span>
         </a>
 
         <nav
           id="primary-nav"
-          aria-label="Primary"
+          aria-label={t.header.primaryNav}
           className={cn(styles.nav, menuOpen && styles.navOpen)}
         >
           <ul>
-            {navigation.map((item) => (
-              <li key={item.id}>
+            {sectionIds.map((id) => (
+              <li key={id}>
                 <a
-                  href={`#${item.id}`}
-                  className={cn(styles.link, active === item.id && styles.active)}
-                  aria-current={active === item.id ? 'true' : undefined}
+                  href={`#${id}`}
+                  className={cn(styles.link, active === id && styles.active)}
+                  aria-current={active === id ? 'true' : undefined}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {item.label}
+                  {t.nav[id]}
                 </a>
               </li>
             ))}
@@ -64,11 +66,26 @@ export function Header() {
         </nav>
 
         <div className={styles.actions}>
+          <div className={styles.langSwitch} role="group" aria-label={t.header.language}>
+            {locales.map((l) => (
+              <button
+                key={l.code}
+                type="button"
+                lang={l.code}
+                className={cn(styles.langOption, locale === l.code && styles.langActive)}
+                aria-pressed={locale === l.code}
+                aria-label={l.name}
+                onClick={() => setLocale(l.code)}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             className={styles.iconButton}
             onClick={toggleTheme}
-            aria-label={`Switch to ${nextTheme} theme`}
+            aria-label={theme === 'dark' ? t.header.themeToLight : t.header.themeToDark}
           >
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} />
           </button>
@@ -78,7 +95,7 @@ export function Header() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="primary-nav"
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={menuOpen ? t.header.closeMenu : t.header.openMenu}
           >
             <Icon name={menuOpen ? 'close' : 'menu'} />
           </button>

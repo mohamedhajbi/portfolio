@@ -1,64 +1,65 @@
-export interface NavItem {
-  id: string;
-  label: string;
-}
+export type Locale = 'en' | 'fr';
+
+/** A value provided in every supported language. */
+export type Localized<T = string> = Record<Locale, T>;
+
+/** Text that is either the same in every language (tech names) or translated. */
+export type Text = string | Localized;
+
+export type SectionId = 'about' | 'experience' | 'skills' | 'projects' | 'education' | 'contact';
 
 export interface Stat {
   value: string;
-  label: string;
+  label: Localized;
 }
 
 export interface Profile {
   name: string;
   initials: string;
-  title: string;
-  tagline: string;
-  summary: string[];
-  location: string;
+  title: Localized;
+  tagline: Localized;
+  summary: Localized<string[]>;
+  location: Localized;
   email: string;
   phone: string;
   linkedin: string;
+  linkedinHandle: string;
   cvPath: string;
   photo: string;
-  availability: string;
-  highlights: { title: string; text: string }[];
+  highlights: { title: Localized; text: Localized }[];
   stats: Stat[];
 }
 
 export interface Experience {
-  role: string;
-  company: string;
-  location?: string;
-  type?: string;
+  role: Localized;
+  company?: string;
+  type: Localized;
+  /** ISO year-month, e.g. "2025-09". */
   start: string;
-  end: string;
-  bullets: string[];
+  /** ISO year-month; omit for a current position. */
+  end?: string;
+  bullets: Localized<string[]>;
   stack: string[];
 }
 
 export interface SkillGroup {
-  title: string;
-  items: string[];
+  title: Localized;
+  items: Text[];
 }
 
-export interface Language {
-  name: string;
-  level: string;
-}
-
-export type ProjectCategory = 'Backend' | 'Full-stack' | 'DevOps' | 'Mobile';
+export type ProjectCategory = 'backend' | 'fullstack' | 'devops' | 'ai' | 'mobile';
 
 export interface Project {
-  title: string;
-  context: string;
-  period: string;
-  description: string;
+  title: Localized;
+  context: Text;
+  period?: Text;
+  description: Localized;
   stack: string[];
   categories: ProjectCategory[];
 }
 
 export interface Education {
-  degree: string;
+  degree: Localized;
   school: string;
   period: string;
 }

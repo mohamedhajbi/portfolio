@@ -1,28 +1,27 @@
-import { languages, skillGroups } from '@/data';
+import { skillGroups, spokenLanguages } from '@/data';
+import { useLanguage } from '@/i18n';
 import { Section, TagList } from '@/components/ui';
 import styles from './Skills.module.css';
 
 export function Skills() {
+  const { t, tr, text } = useLanguage();
+
   return (
-    <Section id="skills" index="03" eyebrow="Toolbox" title="Technical skills">
+    <Section id="skills" index="03" eyebrow={t.skills.eyebrow} title={t.skills.title}>
       <div className={styles.grid}>
-        {skillGroups.map((group) => (
-          <article key={group.title} className={styles.card}>
-            <h3>{group.title}</h3>
-            <TagList items={group.items} label={`${group.title} skills`} />
-          </article>
-        ))}
+        {skillGroups.map((group) => {
+          const title = tr(group.title);
+          return (
+            <article key={group.title.en} className={styles.card}>
+              <h3>{title}</h3>
+              <TagList items={group.items.map(text)} label={t.skills.groupLabel(title)} />
+            </article>
+          );
+        })}
 
         <article className={styles.card}>
-          <h3>Spoken languages</h3>
-          <ul className={styles.languages}>
-            {languages.map((lang) => (
-              <li key={lang.name}>
-                <strong>{lang.name}</strong>
-                <span>{lang.level}</span>
-              </li>
-            ))}
-          </ul>
+          <h3>{t.skills.spoken}</h3>
+          <TagList items={spokenLanguages.map(tr)} label={t.skills.spoken} />
         </article>
       </div>
     </Section>

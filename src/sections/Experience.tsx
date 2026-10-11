@@ -1,37 +1,49 @@
 import { experiences } from '@/data';
+import { useLanguage } from '@/i18n';
 import { Section, TagList } from '@/components/ui';
 import styles from './Experience.module.css';
 
 export function Experience() {
+  const { t, tr, formatMonth } = useLanguage();
+
   return (
-    <Section id="experience" index="02" eyebrow="Career" title="Professional experience">
+    <Section id="experience" index="02" eyebrow={t.experience.eyebrow} title={t.experience.title}>
       <ol className={styles.timeline}>
-        {experiences.map((job) => (
-          <li key={`${job.company}-${job.start}`} className={styles.item}>
-            <article className={styles.card}>
-              <header className={styles.header}>
-                <div>
-                  <h3 className={styles.role}>{job.role}</h3>
-                  <p className={styles.company}>
-                    {job.company}
-                    {job.type && <span className={styles.type}>{job.type}</span>}
+        {experiences.map((job) => {
+          const role = tr(job.role);
+          return (
+            <li key={`${job.role.en}-${job.start}`} className={styles.item}>
+              <article className={styles.card}>
+                <header className={styles.header}>
+                  <div>
+                    <h3 className={styles.role}>{role}</h3>
+                    <p className={styles.company}>
+                      {job.company && <span>{job.company}</span>}
+                      <span className={styles.type}>{tr(job.type)}</span>
+                    </p>
+                  </div>
+                  <p className={styles.period}>
+                    <time dateTime={job.start}>{formatMonth(job.start)}</time>
+                    {' - '}
+                    {job.end ? (
+                      <time dateTime={job.end}>{formatMonth(job.end)}</time>
+                    ) : (
+                      t.experience.present
+                    )}
                   </p>
-                </div>
-                <p className={styles.period}>
-                  {job.start} — {job.end}
-                </p>
-              </header>
+                </header>
 
-              <ul className={styles.bullets}>
-                {job.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
+                <ul className={styles.bullets}>
+                  {tr(job.bullets).map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
 
-              <TagList items={job.stack} label={`Stack used at ${job.company}`} />
-            </article>
-          </li>
-        ))}
+                <TagList items={job.stack} label={t.experience.stackLabel(role)} />
+              </article>
+            </li>
+          );
+        })}
       </ol>
     </Section>
   );

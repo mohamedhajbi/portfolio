@@ -1,31 +1,35 @@
 import { useMemo, useState } from 'react';
 import { projectCategories, projects } from '@/data';
+import { useLanguage } from '@/i18n';
 import { Section, TagList } from '@/components/ui';
 import type { ProjectCategory } from '@/types';
 import { cn } from '@/utils/cn';
 import styles from './Projects.module.css';
 
-type Filter = 'All' | ProjectCategory;
+type Filter = 'all' | ProjectCategory;
 
-const filters: Filter[] = ['All', ...projectCategories];
+const filters: Filter[] = ['all', ...projectCategories];
 
 export function Projects() {
-  const [filter, setFilter] = useState<Filter>('All');
+  const { t, tr, text } = useLanguage();
+  const [filter, setFilter] = useState<Filter>('all');
 
   const visible = useMemo(
-    () => (filter === 'All' ? projects : projects.filter((p) => p.categories.includes(filter))),
+    () => (filter === 'all' ? projects : projects.filter((p) => p.categories.includes(filter))),
     [filter],
   );
+
+  const filterLabel = (f: Filter) => (f === 'all' ? t.projects.all : t.projects.categories[f]);
 
   return (
     <Section
       id="projects"
       index="04"
-      eyebrow="Work"
-      title="Selected projects"
-      intro="A selection of professional and personal projects across backend, full-stack and DevOps work."
+      eyebrow={t.projects.eyebrow}
+      title={t.projects.title}
+      intro={t.projects.intro}
     >
-      <div className={styles.filters} role="group" aria-label="Filter projects by category">
+      <div className={styles.filters} role="group" aria-label={t.projects.filterLabel}>
         {filters.map((f) => (
           <button
             key={f}
@@ -34,29 +38,32 @@ export function Projects() {
             aria-pressed={filter === f}
             onClick={() => setFilter(f)}
           >
-            {f}
+            {filterLabel(f)}
           </button>
         ))}
       </div>
 
       <p className="visually-hidden" aria-live="polite">
-        {visible.length} projects shown
+        {t.projects.shown(visible.length)}
       </p>
 
       <ul className={styles.grid}>
-        {visible.map((project) => (
-          <li key={project.title}>
-            <article className={styles.card}>
-              <p className={styles.meta}>
-                <span>{project.context}</span>
-                <span>{project.period}</span>
-              </p>
-              <h3 className={styles.title}>{project.title}</h3>
-              <p className={styles.description}>{project.description}</p>
-              <TagList items={project.stack} label={`${project.title} stack`} />
-            </article>
-          </li>
-        ))}
+        {visible.map((project) => {
+          const title = tr(project.title);
+          return (
+            <li key={project.title.en}>
+              <article className={styles.card}>
+                <p className={styles.meta}>
+                  <span>{text(project.context)}</span>
+                  {project.period && <span>{text(project.period)}</span>}
+                </p>
+                <h3 className={styles.title}>{title}</h3>
+                <p className={styles.description}>{tr(project.description)}</p>
+                <TagList items={project.stack} label={t.projects.stackLabel(title)} />
+              </article>
+            </li>
+          );
+        })}
       </ul>
     </Section>
   );

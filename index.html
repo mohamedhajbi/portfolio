@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mohamed Hajbi — Software Engineer · Backend &amp; Full-Stack</title>
+    <title>Mohamed Hajbi · Software Engineer</title>
     <meta
       name="description"
-      content="Mohamed Hajbi, Software Engineer (backend &amp; full-stack) with 2.5+ years of experience: REST APIs, databases, Vue.js / React / Angular interfaces, Docker, CI/CD and AWS. Based in Sfax, Tunisia."
+      content="Mohamed Hajbi, full-stack Software Engineer: REST APIs, databases, Vue.js / React / Angular interfaces, AI model integration, Docker, CI/CD and AWS. Based in Sfax, Tunisia."
     />
     <meta name="author" content="Mohamed Hajbi" />
     <meta property="og:type" content="profile" />
-    <meta property="og:title" content="Mohamed Hajbi — Software Engineer" />
+    <meta property="og:title" content="Mohamed Hajbi · Software Engineer" />
     <meta
       property="og:description"
-      content="Software Engineer — APIs with Python, NestJS and Spring Boot, interfaces with Vue.js, React and Angular, shipped with Docker, CI/CD and AWS."
+      content="Software Engineer building APIs with Python, NestJS and Spring Boot, interfaces with Vue.js, React and Angular, shipped with Docker, CI/CD and AWS."
     />
     <meta property="og:image" content="/profile.png" />
     <link rel="preload" as="image" href="/profile.webp" type="image/webp" />
@@ -26,8 +26,11 @@
       rel="stylesheet"
     />
     <script>
-      // Apply the saved theme before first paint to avoid a flash.
+      // Apply the saved theme and language before first paint to avoid a flash.
       try {
+        const locale = localStorage.getItem('locale');
+        if (locale === 'fr' || locale === 'en') document.documentElement.lang = locale;
+        else if (navigator.language.toLowerCase().startsWith('fr')) document.documentElement.lang = 'fr';
         const saved = localStorage.getItem('theme');
         const theme =
           saved ?? (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');

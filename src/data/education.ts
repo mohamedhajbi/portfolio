@@ -2,13 +2,19 @@ import type { Education } from '@/types';
 
 export const education: Education[] = [
   {
-    degree: 'Engineering Degree in Computer Science',
+    degree: {
+      en: 'Engineering Degree in Computer Science',
+      fr: "Diplôme d'ingénieur en informatique",
+    },
     school: 'Polytechnique Sfax (IPSAS)',
-    period: '2022 — 2025',
+    period: '2022 - 2025',
   },
   {
-    degree: "Bachelor's Degree in Information Technology",
+    degree: {
+      en: "Bachelor's Degree in Information Technology",
+      fr: "Licence en technologies de l'information",
+    },
     school: 'ISET Sidi Bouzid',
-    period: '2018 — 2022',
+    period: '2018 - 2022',
   },
 ];
